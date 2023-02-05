@@ -1,6 +1,7 @@
 from flask import Flask, request
 from random import choice
 
+
 app = Flask(__name__)
 
 
@@ -216,6 +217,7 @@ def form_sample():
         print(request.form.get('accept'))
         print(request.form['sex'])
         print(request.form['reason'])
+        print(request.form)
         return "Форма отправлена"
 
 
@@ -322,16 +324,58 @@ def test(nickname, level, rating):
                     href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" 
                     integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" 
                     crossorigin="anonymous">
-                    <link rel="stylesheet" type="text/css" href="static/css/style.css"/>
                   </head>
                   <body>
-                    <h1>Результаты отбора (в биг дату)</h1>
+                    <h1>Результаты отбора</h1>
                     <h2>Претендента на участие в миссии {nickname}:</h2>
                     <h4>{html_text}
                     составляет {rating}!
                     <div class="alert alert-info" role="alert">Желаем удачи!</div></h4>
                   </body>
                 </html>"""
+
+
+@app.route('/load_photo', methods=['POST', 'GET'])
+def load_photo():
+    if request.method == 'GET':
+        return '''<!doctype html>
+                        <html lang="en">
+                          <head>
+                            <meta charset="utf-8">
+                            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+                            <link rel="stylesheet"
+                            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+                            integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+                            crossorigin="anonymous">
+                            <link rel="stylesheet" type="text/css" href="static/css/style3.css" />
+                            <title>Отбор астронавтов</title>
+                          </head>
+                          <body>
+                            <div id="main">
+                                <h1>Загрузка фотографии</h1>
+                                <h2>для участия в миссии</h2>
+                                <form class="login_form" method="post">
+                                    <div class="form-group">
+                                        <label for="photo">Приложите фотографию</label>
+                                        <input class="form-control-file" type="file" id="photo" name="file" onchange="preview()">
+                                        <br/><br/>
+                                        <img id="frame" src="" class="img-fluid" />
+                                        <br/><br/>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Отправить</button>
+                                </form>
+                            </div>
+
+                            <script>
+                                function preview() {
+                                    frame.src = URL.createObjectURL(event.target.files[0]);
+                                }
+                            </script>
+                          </body>
+                        </html>'''
+    elif request.method == 'POST':
+        print(request.form.get('file'))
+        return "Форма отправлена"
 
 
 if __name__ == '__main__':
