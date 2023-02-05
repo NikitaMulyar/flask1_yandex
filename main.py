@@ -303,5 +303,36 @@ def planet_info(planet_name):
                 </html>"""
 
 
+@app.route('/results/<nickname>/<int:level>/<float:rating>')
+def test(nickname, level, rating):
+    colors = ['success', 'warning', 'danger']
+    if rating < 60:
+        clr = colors[2]
+    elif rating < 80:
+        clr = colors[1]
+    else:
+        clr = colors[0]
+    html_text = f"""<div class="alert alert-{clr}" role="alert">Поздравляем! Ваш рейтинг после {level} этапа отбора:</div>"""
+    return f"""<!doctype html>
+                <html lang="en">
+                  <head>
+                    <meta charset="utf-8">
+                    <title>Результаты</title>
+                    <link rel="stylesheet" 
+                    href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" 
+                    integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" 
+                    crossorigin="anonymous">
+                    <link rel="stylesheet" type="text/css" href="static/css/style.css"/>
+                  </head>
+                  <body>
+                    <h1>Результаты отбора (в биг дату)</h1>
+                    <h2>Претендента на участие в миссии {nickname}:</h2>
+                    <h4>{html_text}
+                    составляет {rating}!
+                    <div class="alert alert-info" role="alert">Желаем удачи!</div></h4>
+                  </body>
+                </html>"""
+
+
 if __name__ == '__main__':
     app.run(port=8080, host='127.0.0.1')
