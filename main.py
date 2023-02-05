@@ -213,8 +213,7 @@ def form_sample():
         print(request.form['second_name'])
         print(request.form['class'])
         print(request.form['file'])
-        print(request.form['about'])
-        print(request.form['accept'])
+        print(request.form.get('accept'))
         print(request.form['sex'])
         print(request.form['reason'])
         return "Форма отправлена"
